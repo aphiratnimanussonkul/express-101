@@ -133,3 +133,46 @@ step 5.1: why we need to add type: module
 step 5.2: why we need to change script start this project
 +=> First, we want to make this project start at index.js file. And we don't need to restart the project all the time when we change a piece of code, so we must start this project with nodemon. Nodemon will restart the project automatically when we edit some code or save code.
 ```
+
+----
+## Group Route
+For this checkpoint, we will create two group routes. From checkpoint 2, we have an app route that has GET /hello on that. But we don't want to write a handle on a route like that and it should separate route by service.
+
+1. Create user.routes.js under routes folder
+```javascript
+import express from "express";
+
+export const userRoutes = express.Router();
+
+userRoutes.get("/", (req, res) => {
+  res.status(200).send({ firstName: "Aphirat", lastName: "Nimanussonkul" });
+});
+```
+
+2. Create room.routes.js under routes folder
+```javascript
+import express from "express";
+
+export const roomRoutes = express.Router();
+
+roomRoutes.get("", (req, res) => {
+  res.status(200).send({ roomId: "1", roomNumber: "109" });
+});
+```
+
+3. change code at app.routes.js file
+```javascript
+import express from "express";
+import { userRoutes } from "./user.routes";
+import { roomRoutes } from "./room.routes";
+
+export const appRoutes = express.Router();
+
+appRoutes.use("/user", userRoutes);
+appRoutes.use("/room", roomRoutes);
+```
+4. start project and go to:
+
+    4.1 http://localhost:3000/api/user <br>
+    4.2 http://localhost:3000/api/room
+    

@@ -1,8 +1,8 @@
 import express from "express";
+import { userRoutes } from "./user.routes";
+import { roomRoutes } from "./room.routes";
 
 export const appRoutes = express.Router();
 
-appRoutes.get("/hello", (req, res) => {
-  console.log("Hello backend");
-  res.status(200).send("Hello backend");
-});
+appRoutes.use("/user", userRoutes);
+appRoutes.use("/room", roomRoutes);
