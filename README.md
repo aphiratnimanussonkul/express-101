@@ -28,7 +28,8 @@ $ npm start
 
 express will start at: http://localhost:3000
 
-----
+---
+
 ## Hello Backend
 
 For this checkpoint, we will delete all unnecessary code or module which don't relate with backend. Let get started!!!
@@ -102,6 +103,7 @@ appRoutes.get("/hello", (req, res) => {
   "type": "module"
 }
 ```
+
 5.2 replace script start this project <br>
 from
 
@@ -123,10 +125,9 @@ to
 }
 ```
 
-
 ```diff
-Note 
-step 5.1: why we need to add type: module 
+Note
+step 5.1: why we need to add type: module
 +=> Because if we the start project, we will get some error like this.
 - SyntaxError: Cannot use import statement outside a module
 
@@ -134,11 +135,14 @@ step 5.2: why we need to change script start this project
 +=> First, we want to make this project start at index.js file. And we don't need to restart the project all the time when we change a piece of code, so we must start this project with nodemon. Nodemon will restart the project automatically when we edit some code or save code.
 ```
 
-----
+---
+
 ## Group Route
+
 For this checkpoint, we will create two group routes. From checkpoint 2, we have an app route that has GET /hello on that. But we don't want to write a handle on a route like that and it should separate route by service.
 
 1. Create user.routes.js under routes folder
+
 ```javascript
 import express from "express";
 
@@ -150,6 +154,7 @@ userRoutes.get("/", (req, res) => {
 ```
 
 2. Create room.routes.js under routes folder
+
 ```javascript
 import express from "express";
 
@@ -161,6 +166,7 @@ roomRoutes.get("", (req, res) => {
 ```
 
 3. change code at app.routes.js file
+
 ```javascript
 import express from "express";
 import { userRoutes } from "./user.routes";
@@ -171,8 +177,57 @@ export const appRoutes = express.Router();
 appRoutes.use("/user", userRoutes);
 appRoutes.use("/room", roomRoutes);
 ```
+
 4. start project and go to:
 
-    4.1 http://localhost:3000/api/user <br>
-    4.2 http://localhost:3000/api/room
-    
+   4.1 http://localhost:3000/api/user <br>
+   4.2 http://localhost:3000/api/room
+
+---
+
+## Controller
+
+For this checkpoint we will move all business logic to controller
+
+1. create folder controllers
+2. create file room.controller.js under folder controllers
+
+```javascript
+class RoomController {
+  getRoom = (req, res) => {
+    res.status(200).send({ roomId: "1", roomNumber: "109" });
+  };
+}
+
+export default new RoomController();
+```
+
+3. remove business logic
+
+```javascript
+import express from "express";
+import roomController from "../controllers/room.controller";
+
+export const roomRoutes = express.Router();
+
+roomRoutes.get("", roomController.getRoom);
+```
+4. create user.controller.js file under controllers folder
+```javascript
+class UserController {
+  getUser = (req, res) => {
+    res.status(200).send({ firstName: "Aphirat", lastName: "Nimanussonkul" });
+  };
+}
+
+export default new UserController();
+```
+5. remove business logic 
+```javascript
+import express from "express";
+import userController from "../controllers/user.controller";
+
+export const userRoutes = express.Router();
+
+userRoutes.get("", userController.getUser);
+```

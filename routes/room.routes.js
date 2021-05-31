@@ -1,7 +1,6 @@
 import express from "express";
+import roomController from "../controllers/room.controller";
 
 export const roomRoutes = express.Router();
 
-roomRoutes.get("", (req, res) => {
-  res.status(200).send({ roomId: "1", roomNumber: "109" });
-});
+roomRoutes.get("", roomController.getRoom);
